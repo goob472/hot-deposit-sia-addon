@@ -1,0 +1,33 @@
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+authors="${mod_authors}"
+credits="Deposit logic by P3pp3rF1y's Sophisticated Item Actions. Block idea inspired by Inventory Manager Lite (Bedrock)."
+description='''${mod_description}'''
+
+# Required: the game will refuse to load without Sophisticated Item Actions installed.
+[[dependencies.${mod_id}]]
+modId="sophisticateditemactions"
+type="required"
+versionRange="${sia_version_range}"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="neoforge"
+type="required"
+versionRange="${neo_version_range}"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="minecraft"
+type="required"
+versionRange="${minecraft_version_range}"
+ordering="NONE"
+side="BOTH"

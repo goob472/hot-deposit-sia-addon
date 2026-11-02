@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "GEG",
+    "GCG",
+    "GLG"
+  ],
+  "key": {
+    "G": { "item": "minecraft:gold_ingot" },
+    "E": { "item": "minecraft:ender_pearl" },
+    "C": { "item": "minecraft:chest" },
+    "L": { "item": "minecraft:glowstone" }
+  },
+  "result": {
+    "id": "hotdeposit:hot_deposit",
+    "count": 1
+  }
+}

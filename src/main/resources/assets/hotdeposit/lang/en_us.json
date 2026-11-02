@@ -1,0 +1,12 @@
+{
+  "block.hotdeposit.hot_deposit": "Hot Deposit",
+  "block.hotdeposit.hot_deposit.tooltip": "Right-click to deposit matching inventory items into nearby storage (same as Shift + '). Its eyes open when you have something to deposit.",
+  "hotdeposit.configuration.title": "Hot Deposit Config",
+  "hotdeposit.configuration.section.hotdeposit.common.toml": "Hot Deposit Settings",
+  "hotdeposit.configuration.section.hotdeposit.common.toml.title": "Hot Deposit Settings",
+  "hotdeposit.configuration.range": "Deposit Range",
+  "hotdeposit.configuration.range.tooltip": "How far (in blocks) from the Hot Deposit block to look for storage. Sophisticated Item Actions' own range is 10.",
+  "hotdeposit.configuration.blacklist": "Storage Blacklist",
+  "hotdeposit.configuration.blacklist.tooltip": "Storages the Hot Deposit block never deposits into. Use a block or entity id (minecraft:furnace, minecraft:armor_stand), a whole mod (somemod:*), or a tag (#c:chests).",
+  "hotdeposit.configuration.blacklist.button": "Edit Blacklist"
+}
