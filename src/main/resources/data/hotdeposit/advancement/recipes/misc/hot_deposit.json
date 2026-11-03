@@ -1,15 +1,15 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_ender_pearl": {
+    "has_ender_eye": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": { "items": [ { "items": "minecraft:ender_pearl" } ] }
+      "conditions": { "items": [ { "items": "minecraft:ender_eye" } ] }
     },
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": { "recipe": "hotdeposit:hot_deposit" }
     }
   },
-  "requirements": [ [ "has_ender_pearl", "has_the_recipe" ] ],
+  "requirements": [ [ "has_ender_eye", "has_the_recipe" ] ],
   "rewards": { "recipes": [ "hotdeposit:hot_deposit" ] }
 }
