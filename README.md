@@ -9,6 +9,7 @@ The block is a carved wooden owl with gold trim. Its two purple eyes open and gl
 The eye checks are built to stay cheap on busy servers: blocks with no player in range do no work, the list of nearby storages is cached and rescanned every 5 seconds, each player's answer is reused until their inventory changes, and all Hot Deposit blocks share one queue that runs at most 4 real checks per tick.
 
 - **Requires** Sophisticated Item Actions 0.5.19 or newer (and Sophisticated Core, which SIA already needs).
+- Tested with Sophisticated Item Actions 0.5.19, Sophisticated Core 1.5.31, Sophisticated Storage 1.6.16 and Sophisticated Backpacks 3.26.20 (NeoForge 21.1).
 - Works with an item in hand too. Sneak-right-click places blocks against it as usual.
 - Breaks as fast as a chest (hand or any tool; axes are faster) and drops itself.
 - Light level 10 (like a soul lantern) while the eyes are open, none while closed.
@@ -36,3 +37,7 @@ G F G      C = Chest
 ```
 
 The jar ends up in `build/libs/`.
+
+## License
+
+MIT, see [LICENSE](LICENSE).
