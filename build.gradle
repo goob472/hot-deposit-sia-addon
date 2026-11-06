@@ -4,7 +4,7 @@ plugins {
     id 'net.neoforged.moddev' version '2.0.78'
 }
 
-version = "${minecraft_version}-${mod_version}"
+version = "mc${minecraft_version}-${mod_version}"
 group = mod_group_id
 
 base {

@@ -40,7 +40,7 @@ G F G      C = Chest
 ./gradlew build
 ```
 
-The jar ends up in `build/libs/`.
+The jar ends up in `build/libs/` as `hotdeposit-mc<minecraft version>-<mod version>.jar`.
 
 ## License
 
