@@ -28,8 +28,8 @@ Open it from the Mods list (select Hot Deposit, then Config), or edit `config/ho
 ## Recipe
 
 ```
-E G E      G = Gold Ingot
-G C G      E = Eye of Ender
+G G G      G = Gold Ingot
+E C E      E = Eye of Ender
 G F G      C = Chest
            F = Feather
 ```
