@@ -8,7 +8,7 @@ The block is a carved wooden owl with gold trim. Its two purple eyes open and gl
 
 | Something to deposit: eyes open | After depositing: eyes closed |
 |---|---|
-| ![Hot Deposit with its eyes open next to a chest and a Sophisticated Storage barrel](docs/screenshots/eyes-open.png) | ![Hot Deposit with its eyes closed after depositing into the chest](docs/screenshots/after-deposit.png) |
+| ![Hot Deposit owl at midnight with its eyes open and glowing, next to a chest](docs/screenshots/eyes-open.png) | ![Hot Deposit owl at midnight with its eyes closed after depositing into the chest](docs/screenshots/after-deposit.png) |
 
 The eye checks are built to stay cheap on busy servers: blocks with no player in range do no work, the list of nearby storages is cached and rescanned every 5 seconds, each player's answer is reused until their inventory changes, and all Hot Deposit blocks share one queue that runs at most 4 real checks per tick.
 
