@@ -7,7 +7,7 @@
     },
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
-      "conditions": { "recipe": "hotdeposit:hot_deposit" }
+      "conditions": { "recipes": "hotdeposit:hot_deposit" }
     }
   },
   "requirements": [ [ "has_ender_eye", "has_the_recipe" ] ],
