@@ -228,14 +228,17 @@ public final class HotDepositLogic {
 
 	private static ItemStack insert(IDepositHandler handler, ItemStack stack, Player player, int slot, Map<Vec3, ItemTransferData> inserted,
 			Set<Integer> depositedFromSlots) {
-		ItemStack remaining = handler.insertItem(stack);
-		if (remaining.getCount() < stack.getCount()) {
-			inserted.computeIfAbsent(handler.getPosition(),
-					k -> new ItemTransferData(handler.getPositionToOpen().orElse(null), handler.getPosition(), new ArrayList<>()))
-					.itemsTransferred().add(stack.copyWithCount(stack.getCount() - remaining.getCount()));
-			player.getInventory().setItem(slot, remaining);
-			depositedFromSlots.add(slot);
+		// returns how many items went in
+		int count = handler.insertItem(stack);
+		if (count <= 0) {
+			return stack;
 		}
+		inserted.computeIfAbsent(handler.getPosition(),
+				k -> new ItemTransferData(handler.getPositionToOpen().orElse(null), handler.getPosition(), new ArrayList<>()))
+				.itemsTransferred().add(stack.copyWithCount(count));
+		ItemStack remaining = count >= stack.getCount() ? ItemStack.EMPTY : stack.copyWithCount(stack.getCount() - count);
+		player.getInventory().setItem(slot, remaining);
+		depositedFromSlots.add(slot);
 		return remaining;
 	}
 
