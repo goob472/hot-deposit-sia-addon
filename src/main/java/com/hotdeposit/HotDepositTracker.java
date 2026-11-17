@@ -2,12 +2,12 @@ package com.hotdeposit;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.neoforged.neoforge.event.level.LevelEvent;
-import net.neoforged.neoforge.event.server.ServerStoppedEvent;
-import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;
@@ -23,7 +23,7 @@ import java.util.UUID;
  * the rest wait in the queue for the next tick, so many blocks or players can never pile their work into the same tick.</li>
  * </ul>
  */
-@EventBusSubscriber(modid = HotDeposit.MOD_ID)
+@Mod.EventBusSubscriber(modid = HotDeposit.MOD_ID)
 public final class HotDepositTracker {
 	static final int CHECK_INTERVAL = 20;
 	private static final int MAX_EXPENSIVE_CHECKS_PER_TICK = 4;
@@ -64,8 +64,8 @@ public final class HotDepositTracker {
 	}
 
 	@SubscribeEvent
-	public static void onLevelTick(LevelTickEvent.Post event) {
-		if (!(event.getLevel() instanceof ServerLevel level)) {
+	public static void onLevelTick(TickEvent.LevelTickEvent event) {
+		if (event.phase != TickEvent.Phase.END || !(event.level instanceof ServerLevel level)) {
 			return;
 		}
 		ArrayDeque<HotDepositBlockEntity> queue = QUEUES.get(level);

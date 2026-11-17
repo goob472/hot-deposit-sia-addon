@@ -1,15 +1,14 @@
 package com.hotdeposit;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -25,11 +24,11 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import javax.annotation.Nullable;
 
 import java.util.List;
 
 public class HotDepositBlock extends HorizontalDirectionalBlock implements EntityBlock {
-	public static final MapCodec<HotDepositBlock> CODEC = simpleCodec(HotDepositBlock::new);
 	/** Eyes open and glowing: a nearby player has items that match nearby storage. */
 	public static final BooleanProperty OPEN = BooleanProperty.create("open");
 	// Same footprint as a vanilla chest
@@ -43,11 +42,6 @@ public class HotDepositBlock extends HorizontalDirectionalBlock implements Entit
 	}
 
 	@Override
-	protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-		return CODEC;
-	}
-
-	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(FACING, OPEN);
 	}
@@ -58,7 +52,8 @@ public class HotDepositBlock extends HorizontalDirectionalBlock implements Entit
 	}
 
 	@Override
-	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+	@SuppressWarnings("deprecation")
+	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		return SHAPE;
 	}
 
@@ -68,11 +63,11 @@ public class HotDepositBlock extends HorizontalDirectionalBlock implements Entit
 	}
 
 	/**
-	 * Also reached when right-clicking with an item in hand (vanilla falls through to this unless the player is sneaking),
-	 * so the player doesn't need an empty hand.
+	 * Called whatever the player holds (vanilla only skips it while sneaking with an item), so the player doesn't need an empty hand.
 	 */
 	@Override
-	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+	@SuppressWarnings("deprecation")
+	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 		if (level instanceof ServerLevel serverLevel && player instanceof ServerPlayer serverPlayer) {
 			long now = level.getGameTime();
 			if (HotDepositTracker.tryStartDeposit(player.getUUID(), now, COOLDOWN_TICKS)) {
@@ -87,7 +82,7 @@ public class HotDepositBlock extends HorizontalDirectionalBlock implements Entit
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+	public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {
 		tooltip.add(Component.translatable("block.hotdeposit.hot_deposit.tooltip").withStyle(ChatFormatting.GRAY));
 	}
 }

@@ -8,20 +8,20 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.fml.event.config.ModConfigEvent;
-import net.neoforged.neoforge.common.ModConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public final class HotDepositConfig {
-	public static final ModConfigSpec SPEC;
+	public static final ForgeConfigSpec SPEC;
 
-	private static final ModConfigSpec.IntValue RANGE;
-	private static final ModConfigSpec.ConfigValue<List<? extends String>> BLACKLIST;
+	private static final ForgeConfigSpec.IntValue RANGE;
+	private static final ForgeConfigSpec.ConfigValue<List<? extends String>> BLACKLIST;
 
 	static {
-		ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
+		ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
 		RANGE = builder.comment("How far (in blocks) from the Hot Deposit block storages are searched for.",
 						"Sophisticated Item Actions' own Shift + ' range is 10.")
 				.defineInRange("range", 10, 1, 32);
@@ -29,9 +29,9 @@ public final class HotDepositConfig {
 						"  a block or entity id, e.g. \"minecraft:furnace\" or \"minecraft:armor_stand\"",
 						"  a whole mod, e.g. \"somemod:*\"",
 						"  a block or entity type tag, e.g. \"#c:chests\"")
-				.defineListAllowEmpty("blacklist",
-						List.of("minecraft:armor_stand", "minecraft:furnace", "minecraft:blast_furnace", "minecraft:smoker", "minecraft:brewing_stand"),
-						() -> "minecraft:", HotDepositConfig::isValidEntry);
+				.defineListAllowEmpty(List.of("blacklist"),
+						() -> List.of("minecraft:armor_stand", "minecraft:furnace", "minecraft:blast_furnace", "minecraft:smoker", "minecraft:brewing_stand"),
+						HotDepositConfig::isValidEntry);
 		SPEC = builder.build();
 	}
 

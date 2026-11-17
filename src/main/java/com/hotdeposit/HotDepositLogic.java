@@ -15,7 +15,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.network.PacketDistributor;
 import net.p3pp3rf1y.sophisticatedcore.inventory.ItemStackKey;
 import net.p3pp3rf1y.sophisticatedcore.util.WorldHelper;
 import net.p3pp3rf1y.sophisticateditemactions.common.IBlockItemActionHandler;
@@ -26,8 +25,8 @@ import net.p3pp3rf1y.sophisticateditemactions.common.ItemMatchResult;
 import net.p3pp3rf1y.sophisticateditemactions.common.ItemTransferData;
 import net.p3pp3rf1y.sophisticateditemactions.common.ItemTransferExtensionRegistry;
 import net.p3pp3rf1y.sophisticateditemactions.common.StorageItemHandlerTarget;
-import net.p3pp3rf1y.sophisticateditemactions.common.SubLevelCompatHelper;
-import net.p3pp3rf1y.sophisticateditemactions.network.SyncItemTransfersPayload;
+import net.p3pp3rf1y.sophisticateditemactions.network.ItemActionsPacketHandler;
+import net.p3pp3rf1y.sophisticateditemactions.network.SyncItemTransfersMessage;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -62,7 +61,7 @@ public final class HotDepositLogic {
 		List<EntityStorage> entities = new ArrayList<>();
 
 		Set<BlockPos> seen = new HashSet<>();
-		for (BlockEntity be : SubLevelCompatHelper.getBlockEntitiesInRange(level, origin, range)) {
+		for (BlockEntity be : WorldHelper.getBlockEntitiesInRange(level, origin, range)) {
 			Level storageLevel = be.getLevel() == null ? level : be.getLevel();
 			BlockPos bePos = be.getBlockPos();
 			if (Vec3.atCenterOf(bePos).distanceToSqr(center) > rangeSqr || HotDepositConfig.isBlacklisted(be.getBlockState())) {
@@ -97,7 +96,7 @@ public final class HotDepositLogic {
 
 		for (BlockStorage storage : scan.blocks()) {
 			Optional<IBlockItemActionHandler> handler = ItemActionHandlerRegistry.getBlockHandler(storage.handlerId());
-			if (handler.isEmpty() || !isStillStorage(level, storage, handler.get()) || !SubLevelCompatHelper.mayInteract(player, level, storage.pos())) {
+			if (handler.isEmpty() || !isStillStorage(level, storage, handler.get()) || !WorldHelper.playerMayInteract(player, level, storage.pos())) {
 				continue;
 			}
 			handler.get().getDepositHandler(player, storage.actOnPos()).ifPresent(handlers::add);
@@ -163,7 +162,7 @@ public final class HotDepositLogic {
 		int hash = 1;
 		for (int slot = MIN_SLOT; slot < MAX_SLOT; slot++) {
 			ItemStack stack = player.getInventory().getItem(slot);
-			hash = 31 * hash + (stack.isEmpty() ? 0 : ItemStack.hashItemAndComponents(stack) * 31 + stack.getCount());
+			hash = 31 * hash + (stack.isEmpty() ? 0 : (stack.getItem().hashCode() * 31 + java.util.Objects.hashCode(stack.getTag())) * 31 + stack.getCount());
 		}
 		return hash;
 	}
@@ -211,11 +210,10 @@ public final class HotDepositLogic {
 		int extensionDeposited = ItemTransferExtensionRegistry.getExtension()
 				.map(extension -> extension.depositFromInventorySources(player, MIN_SLOT, MAX_SLOT, true, storages.storageTargets(), inserted)).orElse(0);
 
-		Vec3 playerPos = SubLevelCompatHelper.projectToWorld(level, player.getEyePosition().add(0, -0.1, 0));
+		Vec3 playerPos = player.getEyePosition().add(0, -0.1, 0);
 		List<ItemTransferData> transfers = List.copyOf(inserted.values());
-		SyncItemTransfersPayload payload = new SyncItemTransfersPayload(transfers, playerPos, true, false);
-		PacketDistributor.sendToPlayer(player, payload);
-		PacketDistributor.sendToPlayersTrackingEntity(player, payload);
+		ItemActionsPacketHandler.INSTANCE.sendToClient(player, new SyncItemTransfersMessage(transfers, playerPos, true, false));
+		ItemActionsPacketHandler.INSTANCE.sendToAllTracking(new SyncItemTransfersMessage(transfers, playerPos, true, false), player);
 
 		if (depositedFromSlots.isEmpty() && extensionDeposited == 0) {
 			player.displayClientMessage(Component.translatable("gui.sophisticateditemactions.status.cannot_deposit_items"), true);
