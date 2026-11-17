@@ -1,7 +1,7 @@
 package com.hotdeposit;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -38,7 +38,8 @@ public class HotDeposit {
 					.lightLevel(state -> state.getValue(HotDepositBlock.OPEN) ? 10 : 0)
 					.noOcclusion());
 
-	public static final DeferredItem<BlockItem> HOT_DEPOSIT_ITEM = ITEMS.registerSimpleBlockItem(HOT_DEPOSIT);
+	public static final DeferredItem<HotDepositBlockItem> HOT_DEPOSIT_ITEM = ITEMS.registerItem("hot_deposit",
+			properties -> new HotDepositBlockItem(HOT_DEPOSIT.get(), properties), new Item.Properties().useBlockDescriptionPrefix());
 
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<HotDepositBlockEntity>> HOT_DEPOSIT_BLOCK_ENTITY = BLOCK_ENTITY_TYPES
 			.register("hot_deposit", () -> new BlockEntityType<>(HotDepositBlockEntity::new, HOT_DEPOSIT.get()));

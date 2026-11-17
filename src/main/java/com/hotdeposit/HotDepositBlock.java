@@ -1,17 +1,12 @@
 package com.hotdeposit;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -25,8 +20,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
-import java.util.List;
 
 public class HotDepositBlock extends HorizontalDirectionalBlock implements EntityBlock {
 	public static final MapCodec<HotDepositBlock> CODEC = simpleCodec(HotDepositBlock::new);
@@ -84,10 +77,5 @@ public class HotDepositBlock extends HorizontalDirectionalBlock implements Entit
 			}
 		}
 		return InteractionResult.SUCCESS;
-	}
-
-	@Override
-	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-		tooltip.add(Component.translatable("block.hotdeposit.hot_deposit.tooltip").withStyle(ChatFormatting.GRAY));
 	}
 }
