@@ -2,7 +2,7 @@ package com.hotdeposit;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -51,7 +51,7 @@ public final class HotDepositConfig {
 	}
 
 	public static boolean isBlacklisted(BlockState state) {
-		ResourceLocation id = BuiltInRegistries.BLOCK.getKey(state.getBlock());
+		Identifier id = BuiltInRegistries.BLOCK.getKey(state.getBlock());
 		for (Entry entry : parsedBlacklist) {
 			if (entry.tag() ? state.is(entry.blockTag()) : entry.matches(id)) {
 				return true;
@@ -61,7 +61,7 @@ public final class HotDepositConfig {
 	}
 
 	public static boolean isBlacklisted(Entity entity) {
-		ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
+		Identifier id = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
 		for (Entry entry : parsedBlacklist) {
 			if (entry.tag() ? entity.getType().is(entry.entityTag()) : entry.matches(id)) {
 				return true;
@@ -97,9 +97,9 @@ public final class HotDepositConfig {
 		}
 		if (!tag && value.endsWith(":*")) {
 			String namespace = value.substring(0, value.length() - 2);
-			return ResourceLocation.isValidNamespace(namespace) && !namespace.isEmpty() ? new Entry(null, namespace, false, null, null) : null;
+			return Identifier.isValidNamespace(namespace) && !namespace.isEmpty() ? new Entry(null, namespace, false, null, null) : null;
 		}
-		ResourceLocation id = ResourceLocation.tryParse(value);
+		Identifier id = Identifier.tryParse(value);
 		return id == null || id.getPath().isEmpty() ? null : new Entry(id, null, tag, tag ? TagKey.create(Registries.BLOCK, id) : null, tag ? TagKey.create(Registries.ENTITY_TYPE, id) : null);
 	}
 
@@ -107,8 +107,8 @@ public final class HotDepositConfig {
 	 * Either an exact id / tag ({@code id} set) or every id from a mod ({@code namespace} set).
 	 * Tag keys are built once here rather than on every check.
 	 */
-	private record Entry(ResourceLocation id, String namespace, boolean tag, TagKey<Block> blockTag, TagKey<EntityType<?>> entityTag) {
-		boolean matches(ResourceLocation other) {
+	private record Entry(Identifier id, String namespace, boolean tag, TagKey<Block> blockTag, TagKey<EntityType<?>> entityTag) {
+		boolean matches(Identifier other) {
 			return namespace != null ? namespace.equals(other.getNamespace()) : id.equals(other);
 		}
 	}

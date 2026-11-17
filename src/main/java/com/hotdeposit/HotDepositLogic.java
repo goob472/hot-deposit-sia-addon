@@ -3,7 +3,7 @@ package com.hotdeposit;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -247,7 +247,8 @@ public final class HotDepositLogic {
 	}
 
 	private static void playFailSound(Player player) {
-		player.playNotifySound(SoundEvents.NOTE_BLOCK_BASS.value(), SoundSource.PLAYERS, 1, 0.7f);
+		// playNotifySound was removed in 1.21.11; play it at the player instead
+		player.level().playSound(null, player.blockPosition(), SoundEvents.NOTE_BLOCK_BASS.value(), SoundSource.PLAYERS, 1, 0.7f);
 	}
 
 	/** Storages near a block, independent of any player. */
@@ -257,10 +258,10 @@ public final class HotDepositLogic {
 		}
 	}
 
-	public record BlockStorage(BlockPos pos, BlockPos actOnPos, ResourceLocation handlerId, double distanceSqr) {
+	public record BlockStorage(BlockPos pos, BlockPos actOnPos, Identifier handlerId, double distanceSqr) {
 	}
 
-	public record EntityStorage(int entityId, ResourceLocation handlerId, double distanceSqr) {
+	public record EntityStorage(int entityId, Identifier handlerId, double distanceSqr) {
 	}
 
 	public record Storages(List<IDepositHandler> depositHandlers, List<StorageItemHandlerTarget> storageTargets) {
