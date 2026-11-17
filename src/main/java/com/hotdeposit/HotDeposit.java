@@ -3,7 +3,6 @@ package com.hotdeposit;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -30,20 +29,19 @@ public class HotDeposit {
 
 	// Same hardness/resistance/sound as a vanilla chest so it breaks just as fast by hand or with any tool.
 	// Light level 10 (like a soul lantern) while the eyes are open, none while they're closed.
-	public static final DeferredBlock<HotDepositBlock> HOT_DEPOSIT = BLOCKS.register("hot_deposit",
-			() -> new HotDepositBlock(BlockBehaviour.Properties.of()
+	public static final DeferredBlock<HotDepositBlock> HOT_DEPOSIT = BLOCKS.registerBlock("hot_deposit",
+			HotDepositBlock::new, BlockBehaviour.Properties.of()
 					.mapColor(MapColor.COLOR_CYAN)
 					.instrument(NoteBlockInstrument.BASS)
 					.strength(2.5F)
 					.sound(SoundType.WOOD)
 					.lightLevel(state -> state.getValue(HotDepositBlock.OPEN) ? 10 : 0)
-					.noOcclusion()));
+					.noOcclusion());
 
-	public static final DeferredItem<BlockItem> HOT_DEPOSIT_ITEM = ITEMS.registerSimpleBlockItem(HOT_DEPOSIT, new Item.Properties());
+	public static final DeferredItem<BlockItem> HOT_DEPOSIT_ITEM = ITEMS.registerSimpleBlockItem(HOT_DEPOSIT);
 
-	@SuppressWarnings("DataFlowIssue") // the data fixer type may be null
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<HotDepositBlockEntity>> HOT_DEPOSIT_BLOCK_ENTITY = BLOCK_ENTITY_TYPES
-			.register("hot_deposit", () -> BlockEntityType.Builder.of(HotDepositBlockEntity::new, HOT_DEPOSIT.get()).build(null));
+			.register("hot_deposit", () -> new BlockEntityType<>(HotDepositBlockEntity::new, HOT_DEPOSIT.get()));
 
 	public HotDeposit(IEventBus modBus, ModContainer container) {
 		BLOCKS.register(modBus);

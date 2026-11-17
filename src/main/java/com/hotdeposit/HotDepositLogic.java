@@ -17,7 +17,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.p3pp3rf1y.sophisticatedcore.inventory.ItemStackKey;
-import net.p3pp3rf1y.sophisticatedcore.util.WorldHelper;
 import net.p3pp3rf1y.sophisticateditemactions.common.IBlockItemActionHandler;
 import net.p3pp3rf1y.sophisticateditemactions.common.IDepositHandler;
 import net.p3pp3rf1y.sophisticateditemactions.common.IEntityItemActionHandler;
@@ -111,7 +110,7 @@ public final class HotDepositLogic {
 			Optional<IEntityItemActionHandler> handler = ItemActionHandlerRegistry.getEntityHandler(storage.handlerId());
 			// the entity may have moved or died since the scan
 			if (entity == null || !entity.isAlive() || handler.isEmpty() || entity.position().distanceToSqr(scan.center()) > scan.rangeSqr()
-					|| !WorldHelper.playerMayInteract(player, entity)) {
+					|| !SubLevelCompatHelper.mayInteract(player, level, entity.blockPosition())) {
 				continue;
 			}
 			handler.get().getDepositHandler(entity).ifPresent(handlers::add);

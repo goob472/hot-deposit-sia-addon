@@ -7,10 +7,10 @@
     "GFG"
   ],
   "key": {
-    "G": { "item": "minecraft:gold_ingot" },
-    "E": { "item": "minecraft:ender_eye" },
-    "C": { "item": "minecraft:chest" },
-    "F": { "item": "minecraft:feather" }
+    "G": "minecraft:gold_ingot",
+    "E": "minecraft:ender_eye",
+    "C": "minecraft:chest",
+    "F": "minecraft:feather"
   },
   "result": {
     "id": "hotdeposit:hot_deposit",

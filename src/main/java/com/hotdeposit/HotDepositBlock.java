@@ -83,7 +83,7 @@ public class HotDepositBlock extends HorizontalDirectionalBlock implements Entit
 				}
 			}
 		}
-		return InteractionResult.sidedSuccess(level.isClientSide());
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override
