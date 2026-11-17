@@ -1,6 +1,5 @@
 package com.hotdeposit;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -22,7 +21,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class HotDepositBlock extends HorizontalDirectionalBlock implements EntityBlock {
-	public static final MapCodec<HotDepositBlock> CODEC = simpleCodec(HotDepositBlock::new);
 	/** Eyes open and glowing: a nearby player has items that match nearby storage. */
 	public static final BooleanProperty OPEN = BooleanProperty.create("open");
 	// Same footprint as a vanilla chest
@@ -33,11 +31,6 @@ public class HotDepositBlock extends HorizontalDirectionalBlock implements Entit
 	public HotDepositBlock(Properties properties) {
 		super(properties);
 		registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(OPEN, false));
-	}
-
-	@Override
-	protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

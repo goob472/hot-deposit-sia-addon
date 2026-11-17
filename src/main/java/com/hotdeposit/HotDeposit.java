@@ -48,7 +48,7 @@ public class HotDeposit {
 		BLOCKS.register(modBus);
 		ITEMS.register(modBus);
 		BLOCK_ENTITY_TYPES.register(modBus);
-		container.registerConfig(ModConfig.Type.COMMON, HotDepositConfig.SPEC);
+		container.registerConfig(ModConfig.Type.LOCAL, HotDepositConfig.SPEC);
 		modBus.addListener(HotDeposit::addToCreativeTabs);
 		modBus.addListener(ModConfigEvent.Loading.class, HotDepositConfig::onConfigChanged);
 		modBus.addListener(ModConfigEvent.Reloading.class, HotDepositConfig::onConfigChanged);

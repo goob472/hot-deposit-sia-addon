@@ -8,5 +8,7 @@
   "hotdeposit.configuration.range.tooltip": "How far (in blocks) from the Hot Deposit block to look for storage. Sophisticated Item Actions' own range is 10.",
   "hotdeposit.configuration.blacklist": "Storage Blacklist",
   "hotdeposit.configuration.blacklist.tooltip": "Storages the Hot Deposit block never deposits into. Use a block or entity id (minecraft:furnace, minecraft:armor_stand), a whole mod (somemod:*), or a tag (#c:chests).",
-  "hotdeposit.configuration.blacklist.button": "Edit Blacklist"
+  "hotdeposit.configuration.blacklist.button": "Edit Blacklist",
+  "hotdeposit.configuration.section.hotdeposit.local.toml": "Hot Deposit Settings",
+  "hotdeposit.configuration.section.hotdeposit.local.toml.title": "Hot Deposit Settings"
 }
