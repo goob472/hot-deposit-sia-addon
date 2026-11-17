@@ -21,3 +21,6 @@ bin/
 # OS
 .DS_Store
 Thumbs.db
+
+# per-version branches checked out locally
+.worktrees/
