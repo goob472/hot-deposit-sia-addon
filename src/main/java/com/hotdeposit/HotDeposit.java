@@ -30,7 +30,7 @@ public class HotDeposit {
 	// Same hardness/resistance/sound as a vanilla chest so it breaks just as fast by hand or with any tool.
 	// Light level 10 (like a soul lantern) while the eyes are open, none while they're closed.
 	public static final DeferredBlock<HotDepositBlock> HOT_DEPOSIT = BLOCKS.registerBlock("hot_deposit",
-			HotDepositBlock::new, BlockBehaviour.Properties.of()
+			HotDepositBlock::new, () -> BlockBehaviour.Properties.of()
 					.mapColor(MapColor.COLOR_CYAN)
 					.instrument(NoteBlockInstrument.BASS)
 					.strength(2.5F)
@@ -39,7 +39,7 @@ public class HotDeposit {
 					.noOcclusion());
 
 	public static final DeferredItem<HotDepositBlockItem> HOT_DEPOSIT_ITEM = ITEMS.registerItem("hot_deposit",
-			properties -> new HotDepositBlockItem(HOT_DEPOSIT.get(), properties), new Item.Properties().useBlockDescriptionPrefix());
+			properties -> new HotDepositBlockItem(HOT_DEPOSIT.get(), properties), () -> new Item.Properties().useBlockDescriptionPrefix());
 
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<HotDepositBlockEntity>> HOT_DEPOSIT_BLOCK_ENTITY = BLOCK_ENTITY_TYPES
 			.register("hot_deposit", () -> new BlockEntityType<>(HotDepositBlockEntity::new, HOT_DEPOSIT.get()));

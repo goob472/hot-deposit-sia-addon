@@ -63,7 +63,7 @@ public final class HotDepositConfig {
 	public static boolean isBlacklisted(Entity entity) {
 		Identifier id = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
 		for (Entry entry : parsedBlacklist) {
-			if (entry.tag() ? entity.getType().is(entry.entityTag()) : entry.matches(id)) {
+			if (entry.tag() ? entity.getType().builtInRegistryHolder().is(entry.entityTag()) : entry.matches(id)) {
 				return true;
 			}
 		}

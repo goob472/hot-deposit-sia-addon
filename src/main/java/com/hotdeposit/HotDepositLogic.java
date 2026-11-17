@@ -171,7 +171,7 @@ public final class HotDepositLogic {
 		// always a fresh scan here: a deposit must act on exactly what is there now
 		Storages storages = resolve(level, player, scanStorages(level, pos, HotDepositConfig.range()), true);
 		if (storages.depositHandlers().isEmpty() && storages.storageTargets().isEmpty()) {
-			player.displayClientMessage(Component.translatable("gui.sophisticateditemactions.status.no_storage_in_range").withStyle(ChatFormatting.RED), true);
+			player.sendOverlayMessage(Component.translatable("gui.sophisticateditemactions.status.no_storage_in_range").withStyle(ChatFormatting.RED));
 			playFailSound(player);
 			return;
 		}
@@ -217,12 +217,12 @@ public final class HotDepositLogic {
 		PacketDistributor.sendToPlayersTrackingEntity(player, payload);
 
 		if (depositedFromSlots.isEmpty() && extensionDeposited == 0) {
-			player.displayClientMessage(Component.translatable("gui.sophisticateditemactions.status.cannot_deposit_items"), true);
+			player.sendOverlayMessage(Component.translatable("gui.sophisticateditemactions.status.cannot_deposit_items"));
 			playFailSound(player);
 		} else {
 			int count = depositedFromSlots.size() + extensionDeposited;
-			player.displayClientMessage(Component.translatable("gui.sophisticateditemactions.status.deposited_items",
-					Component.literal(String.valueOf(count)).withStyle(ChatFormatting.DARK_GREEN)), true);
+			player.sendOverlayMessage(Component.translatable("gui.sophisticateditemactions.status.deposited_items",
+					Component.literal(String.valueOf(count)).withStyle(ChatFormatting.DARK_GREEN)));
 		}
 	}
 
