@@ -6,6 +6,9 @@ license="${mod_license}"
 modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
+logoFile="logo.png"
+# 26.2+ shows iconFile in its mod list; launchers such as Prism only read logoFile
+iconFile="logo.png"
 authors="${mod_authors}"
 credits="Deposit logic by P3pp3rF1y's Sophisticated Item Actions. Block idea inspired by Inventory Manager Lite (Bedrock)."
 description='''${mod_description}'''

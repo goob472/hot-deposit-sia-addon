@@ -48,7 +48,7 @@ Differences between versions:
 
 ## Config
 
-Open it from the Mods list (select Hot Deposit, then Config), or edit `config/hotdeposit-common.toml` (`hotdeposit-local.toml` on 26.3).
+Open it from the Mods list (select Sophisticated Hot Deposit Block, then Config), or edit `config/hotdeposit-common.toml` (`hotdeposit-local.toml` on 26.3).
 
 - **Deposit Range** (default 10, max 32): how far from the block storages are searched. Unlike the keybind, this is measured from the block, not the player.
 - **Storage Blacklist**: storages that are never deposited into. Entries can be a block or entity id (`minecraft:furnace`, `minecraft:armor_stand`), a whole mod (`somemod:*`) or a tag (`#c:chests`). Defaults: armor stand, furnace, blast furnace, smoker, brewing stand.
