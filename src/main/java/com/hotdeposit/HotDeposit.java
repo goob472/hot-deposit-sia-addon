@@ -36,7 +36,7 @@ public class HotDeposit {
 					.instrument(NoteBlockInstrument.BASS)
 					.strength(2.5F)
 					.sound(SoundType.WOOD)
-					.lightLevel(state -> state.getValue(HotDepositBlock.OPEN) ? 10 : 0)
+					.lightLevel(state -> state.getValue(HotDepositBlock.EYES_OPEN) ? 10 : 0)
 					.noOcclusion()));
 
 	public static final RegistryObject<BlockItem> HOT_DEPOSIT_ITEM = ITEMS.register("hot_deposit", () -> new BlockItem(HOT_DEPOSIT.get(), new Item.Properties()));

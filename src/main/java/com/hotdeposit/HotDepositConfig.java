@@ -19,6 +19,7 @@ public final class HotDepositConfig {
 
 	private static final ForgeConfigSpec.IntValue RANGE;
 	private static final ForgeConfigSpec.ConfigValue<List<? extends String>> BLACKLIST;
+	private static final ForgeConfigSpec.BooleanValue CHAT_LIST;
 
 	static {
 		ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
@@ -32,6 +33,8 @@ public final class HotDepositConfig {
 				.defineListAllowEmpty(List.of("blacklist"),
 						() -> List.of("minecraft:armor_stand", "minecraft:furnace", "minecraft:blast_furnace", "minecraft:smoker", "minecraft:brewing_stand"),
 						HotDepositConfig::isValidEntry);
+		CHAT_LIST = builder.comment("Whether using the Hot Deposit block lists the deposited items in chat, visible only to the player who used it.")
+				.define("chatList", true);
 		SPEC = builder.build();
 	}
 
@@ -48,6 +51,10 @@ public final class HotDepositConfig {
 
 	public static int range() {
 		return RANGE.get();
+	}
+
+	public static boolean chatList() {
+		return CHAT_LIST.get();
 	}
 
 	public static boolean isBlacklisted(BlockState state) {
