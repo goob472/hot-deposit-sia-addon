@@ -13,6 +13,13 @@ The block is a carved wooden owl with gold trim. Its two purple eyes open and gl
 The eye checks are built to stay cheap on busy servers: blocks with no player in range do no work, the list of nearby storages is cached and rescanned every 5 seconds, each player's answer is reused until their inventory changes, and all Hot Deposit blocks share one queue that runs at most 4 real checks per tick.
 
 - **Requires** Sophisticated Item Actions (and Sophisticated Core, which SIA already needs); the minimum SIA version for each Minecraft version is in [Versions](#versions).
+- Lists what was deposited in chat, visible only to you (can be turned off in the [config](#config)):
+  ```
+  Hot Deposited 3 Items:
+  Cobblestone x32
+  Torch x2
+  String x4
+  ```
 - Works with an item in hand too. Sneak-right-click places blocks against it as usual.
 - Breaks as fast as a chest (hand or any tool; axes are faster) and drops itself.
 - Light level 10 (like a soul lantern) while the eyes are open, none while closed.
@@ -36,7 +43,7 @@ Each Minecraft version is built from its own branch, like Sophisticated Item Act
 
 Differences between versions:
 
-- **1.20.1** has no in-game config screen (Forge has no built-in one); edit `config/hotdeposit-common.toml` instead.
+- **1.20.1** has no in-game config screen (Forge has no built-in one); edit `config/hotdeposit-common.toml` instead and restart the game.
 - **26.3** stores the settings in `config/hotdeposit-local.toml`.
 
 ## Config
@@ -45,6 +52,7 @@ Open it from the Mods list (select Hot Deposit, then Config), or edit `config/ho
 
 - **Deposit Range** (default 10, max 32): how far from the block storages are searched. Unlike the keybind, this is measured from the block, not the player.
 - **Storage Blacklist**: storages that are never deposited into. Entries can be a block or entity id (`minecraft:furnace`, `minecraft:armor_stand`), a whole mod (`somemod:*`) or a tag (`#c:chests`). Defaults: armor stand, furnace, blast furnace, smoker, brewing stand.
+- **List Deposited Items in Chat** (default on): whether using the block lists what was deposited in chat. Only the player who used it sees the list.
 
 ## Recipe
 
