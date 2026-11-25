@@ -135,8 +135,8 @@ public class HotDepositBlockEntity extends BlockEntity {
 
 	private void setOpen(ServerLevel level, boolean open) {
 		BlockState state = getBlockState();
-		if (state.hasProperty(HotDepositBlock.OPEN) && state.getValue(HotDepositBlock.OPEN) != open) {
-			level.setBlock(worldPosition, state.setValue(HotDepositBlock.OPEN, open), Block.UPDATE_ALL);
+		if (state.hasProperty(HotDepositBlock.EYES_OPEN) && state.getValue(HotDepositBlock.EYES_OPEN) != open) {
+			level.setBlock(worldPosition, state.setValue(HotDepositBlock.EYES_OPEN, open), Block.UPDATE_ALL);
 		}
 	}
 
