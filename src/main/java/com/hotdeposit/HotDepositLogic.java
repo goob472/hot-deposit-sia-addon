@@ -3,6 +3,7 @@ package com.hotdeposit;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -10,6 +11,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -30,8 +32,8 @@ import net.p3pp3rf1y.sophisticateditemactions.network.SyncItemTransfersPayload;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -176,7 +178,7 @@ public final class HotDepositLogic {
 			return;
 		}
 
-		Map<Vec3, ItemTransferData> inserted = new HashMap<>();
+		Map<Vec3, ItemTransferData> inserted = new LinkedHashMap<>();
 		Set<Integer> depositedFromSlots = new HashSet<>();
 		for (int slot = MIN_SLOT; slot < MAX_SLOT; slot++) {
 			ItemStack stack = player.getInventory().getItem(slot);
@@ -223,7 +225,30 @@ public final class HotDepositLogic {
 			int count = depositedFromSlots.size() + extensionDeposited;
 			player.displayClientMessage(Component.translatable("gui.sophisticateditemactions.status.deposited_items",
 					Component.literal(String.valueOf(count)).withStyle(ChatFormatting.DARK_GREEN)), true);
+			if (HotDepositConfig.chatList()) {
+				sendDepositedList(player, transfers);
+			}
 		}
+	}
+
+	/** Lists what was deposited in chat, only for this player. Stacks that would show as the same line are added up. */
+	private static void sendDepositedList(ServerPlayer player, List<ItemTransferData> transfers) {
+		Map<DepositedItem, Integer> counts = new LinkedHashMap<>();
+		for (ItemTransferData transfer : transfers) {
+			for (ItemStack stack : transfer.itemsTransferred()) {
+				if (!stack.isEmpty()) {
+					counts.merge(new DepositedItem(stack.getItem(), stack.getHoverName()), stack.getCount(), Integer::sum);
+				}
+			}
+		}
+		if (counts.isEmpty()) {
+			return;
+		}
+		// one message rather than one per line, so nothing can end up in the middle of the list
+		MutableComponent message = counts.size() == 1 ? Component.translatable("hotdeposit.chat.deposited.single")
+				: Component.translatable("hotdeposit.chat.deposited", counts.size());
+		counts.forEach((item, count) -> message.append("\n").append(Component.translatable("hotdeposit.chat.deposited.item", item.name(), count)));
+		player.sendSystemMessage(message);
 	}
 
 	private static ItemStack insert(IDepositHandler handler, ItemStack stack, Player player, int slot, Map<Vec3, ItemTransferData> inserted,
@@ -252,6 +277,9 @@ public final class HotDepositLogic {
 		public boolean isEmpty() {
 			return blocks.isEmpty() && entities.isEmpty();
 		}
+	}
+
+	private record DepositedItem(Item item, Component name) {
 	}
 
 	public record BlockStorage(BlockPos pos, BlockPos actOnPos, ResourceLocation handlerId, double distanceSqr) {
