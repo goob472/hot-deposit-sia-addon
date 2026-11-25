@@ -21,8 +21,11 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class HotDepositBlock extends HorizontalDirectionalBlock implements EntityBlock {
-	/** Eyes open and glowing: a nearby player has items that match nearby storage. */
-	public static final BooleanProperty OPEN = BooleanProperty.create("open");
+	/**
+	 * Eyes open and glowing: a nearby player has items that match nearby storage.
+	 * Not named "open": properties compare by name, so other mods would take it for the open property of doors, trapdoors and barrels.
+	 */
+	public static final BooleanProperty EYES_OPEN = BooleanProperty.create("eyes_open");
 	// Same footprint as a vanilla chest
 	private static final VoxelShape SHAPE = Block.box(1, 0, 1, 15, 14, 15);
 	// Holding right-click repeats the use action every few ticks; don't deposit for each repeat
@@ -30,12 +33,12 @@ public class HotDepositBlock extends HorizontalDirectionalBlock implements Entit
 
 	public HotDepositBlock(Properties properties) {
 		super(properties);
-		registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(OPEN, false));
+		registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(EYES_OPEN, false));
 	}
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(FACING, OPEN);
+		builder.add(FACING, EYES_OPEN);
 	}
 
 	@Override
